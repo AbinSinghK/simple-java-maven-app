@@ -1,31 +1,20 @@
-pipeline
-{
+pipeline {
+    agent any
 
-agent any
-
-tools {
-  maven 'mymaven'
-}
-
-stages{
-
-    stage('build')
-    {
-        steps {
-            sh 'mvn clean package'
-        }
-
-        post {
-        success {
-            archiveArtifacts artifacts: '**/target/*.war'
-                 }
-            }
-
+    tools {
+        maven 'mymaven'   // or 'Maven' if that’s the exact name in Global Tool Config
     }
 
-   
-
-    
-}
-
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn clean package'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/target/*.jar'
+                }
+            }
+        }
+    }
 }
